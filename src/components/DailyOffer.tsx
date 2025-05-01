@@ -90,11 +90,10 @@ const DailyOffer = () => {
               key={offer.day}
               variant={selectedDay === offer.day ? 'default' : 'outline'}
               onClick={() => setSelectedDay(offer.day)}
-              className={`whitespace-nowrap ${
-                selectedDay === offer.day
+              className={`whitespace-nowrap ${selectedDay === offer.day
                   ? 'bg-corra-brand text-corra-dark hover:bg-corra-brand/90'
                   : 'border-corra-light/20 text-corra-light hover:border-corra-brand hover:text-corra-brand'
-              }`}
+                }`}
             >
               {offer.day}
             </Button>
@@ -131,7 +130,7 @@ const DailyOffer = () => {
 
         {/* Reservation Modal */}
         <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-          <DialogContent className="p-6 bg-corra-dark text-corra-light max-w-lg">
+          <DialogContent className="p-6 bg-corra-dark text-corra-light max-w-md sm:max-w-lg mx-auto rounded-lg h-auto max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="text-2xl font-serif text-corra-brand mb-4">
                 Reserve a Table
@@ -143,14 +142,14 @@ const DailyOffer = () => {
                 placeholder="Your Name"
                 value={formData.name}
                 onChange={handleChange}
-                className="bg-corra-base/20 border-corra-brand placeholder:text-corra-light/50"
+                className="bg-corra-base/20 border-corra-brand placeholder:text-corra-light/50 w-full"
               />
               <Input
                 name="phone"
                 placeholder="Phone Number"
                 value={formData.phone}
                 onChange={handleChange}
-                className="bg-corra-base/20 border-corra-brand placeholder:text-corra-light/50"
+                className="bg-corra-base/20 border-corra-brand placeholder:text-corra-light/50 w-full"
               />
               <div>
                 <label className="block mb-2 text-corra-light/70">Select Date</label>
@@ -158,7 +157,7 @@ const DailyOffer = () => {
                   mode="single"
                   selected={formData.date}
                   onSelect={(date) => setFormData((prev) => ({ ...prev, date }))}
-                  className="bg-corra-base/20 border-corra-brand"
+                  className="bg-corra-base/20 border-corra-brand w-full"
                 />
               </div>
               <Input
@@ -166,7 +165,7 @@ const DailyOffer = () => {
                 placeholder="Number of Guests"
                 value={formData.guests}
                 onChange={handleChange}
-                className="bg-corra-base/20 border-corra-brand placeholder:text-corra-light/50"
+                className="bg-corra-base/20 border-corra-brand placeholder:text-corra-light/50 w-full"
               />
               <div>
                 <label className="block mb-2 text-corra-light/70">Select Location</label>
@@ -197,10 +196,10 @@ const DailyOffer = () => {
                 placeholder="Special Requests (optional)"
                 value={formData.requests}
                 onChange={handleChange}
-                className="bg-corra-base/20 border-corra-brand placeholder:text-corra-light/50"
+                className="bg-corra-base/20 border-corra-brand placeholder:text-corra-light/50 w-full"
               />
               <Button
-                className="w-full bg-corra-brand text-corra-dark hover:bg-corra-brand/90"
+                className="w-full bg-corra-brand text-corra-dark hover:bg-corra-brand/90 py-3"
                 onClick={handleSubmit}
               >
                 Submit Reservation
