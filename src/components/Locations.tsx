@@ -1,7 +1,13 @@
-
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { MapPin } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+// import Calendar from 'react-calendar'; // Import Calendar component
+import 'react-calendar/dist/Calendar.css'; // Make sure to import the calendar styles
+import { Input } from './ui/input';
+import { Calendar } from '@/components/ui/calendar';
+
 
 interface Location {
   name: string;
@@ -40,6 +46,28 @@ const locations: Location[] = [
 ];
 
 const Locations = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    date: new Date(), // Default to today's date
+  });
+
+  const handleReserve = (location: Location) => {
+    setSelectedLocation(location);
+    setModalOpen(true); // Open the modal on Reserve click
+  };
+
+  const handleSubmitReservation = () => {
+    if (selectedLocation && formData.name && formData.phone && formData.date) {
+      alert(`Reservation made for ${formData.name} at ${selectedLocation.name} on ${formData.date.toLocaleDateString()}`);
+      setModalOpen(false); // Close the modal after reservation submission
+    } else {
+      alert('Please fill in all the details.');
+    }
+  };
+
   return (
     <section id="locations" className="section-padding">
       <div className="container mx-auto container-padding">
@@ -52,14 +80,14 @@ const Locations = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {locations.map((location, index) => (
-            <Card 
-              key={index} 
+            <Card
+              key={index}
               className="bg-corra-dark border border-corra-base/20 overflow-hidden h-full"
             >
               <div className="h-48 overflow-hidden">
-                <img 
-                  src={location.image} 
-                  alt={location.name} 
+                <img
+                  src={location.image}
+                  alt={location.name}
                   className="w-full h-full object-cover transition-transform hover:scale-105 duration-700"
                 />
               </div>
@@ -76,13 +104,14 @@ const Locations = () => {
                   <strong>Hours:</strong> {location.hours}
                 </div>
                 <div className="flex gap-3 mt-auto">
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     className="w-full border-corra-light/20 text-corra-light hover:border-corra-brand hover:text-corra-brand"
+                    onClick={() => handleReserve(location)} // Open reservation modal
                   >
                     Reserve
                   </Button>
-                  <Button 
+                  <Button
                     className="w-full bg-corra-brand text-corra-dark hover:bg-corra-brand/90"
                     asChild
                   >
@@ -96,6 +125,61 @@ const Locations = () => {
           ))}
         </div>
       </div>
+
+      {/* Reservation Modal */}
+      {modalOpen && selectedLocation && (
+        <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+          <DialogContent className="p-6 bg-corra-dark text-corra-light max-w-md sm:max-w-lg mx-auto rounded-lg h-auto max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-serif text-corra-brand mb-4">
+                Reserve a Table at {selectedLocation.name}
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <Input
+                name="name"
+                placeholder="Your Name"
+                value={formData.name}
+                onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+                className="bg-corra-base/20 border-corra-brand placeholder:text-corra-light/50 w-full"
+              />
+              <Input
+                name="phone"
+                placeholder="Phone Number"
+                value={formData.phone}
+                onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
+                className="bg-corra-base/20 border-corra-brand placeholder:text-corra-light/50 w-full"
+              />
+              <div>
+                <label className="block mb-2 text-corra-light/70">Select Date</label>
+                <Calendar
+                  mode="single"
+                  selected={formData.date}
+                  onSelect={(date) => setFormData((prev) => ({ ...prev, date }))}
+                  className="bg-corra-base/20 border-corra-brand w-full"
+                />
+              </div>
+              <div>
+                <label className="block mb-2 text-corra-light/70">Location</label>
+                <select
+                  name="location"
+                  value={selectedLocation.name}
+                  disabled
+                  className="w-full bg-corra-base/20 border-corra-brand text-corra-light p-2 rounded-lg"
+                >
+                  <option value={selectedLocation.name}>{selectedLocation.name}</option>
+                </select>
+              </div>
+              <Button
+                className="w-full bg-corra-brand text-corra-dark hover:bg-corra-brand/90 py-3"
+                onClick={handleSubmitReservation}
+              >
+                Submit Reservation
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </section>
   );
 };
