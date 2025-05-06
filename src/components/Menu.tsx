@@ -153,14 +153,14 @@ const Menu = () => {
               >
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="text-xl font-serif">{item.name}</h3>
-                  <span className="text-corra-brand font-medium ml-4">{item.price}</span>
-                </div>
-                <p className="text-corra-light/70 text-sm">{item.description}</p>
-                {item.isSignature && (
-                  <div className="absolute -top-2 -right-2 bg-corra-brand text-corra-dark text-xs px-2 py-1 rounded-md">
+                  {item.isSignature && (
+                  <div className="absolute -top-6 -right-2 bg-corra-brand text-corra-dark text-xs px-2 py-1 rounded-md">
                     Signature
                   </div>
-                )}
+                  )}
+                  <div className="text-corra-brand font-medium ml-4">{item.price}</div>
+                </div>
+                <p className="text-corra-light/70 text-sm">{item.description}</p>
               </div>
             ))}
         </div>

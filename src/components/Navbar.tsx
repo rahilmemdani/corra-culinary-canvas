@@ -1,7 +1,8 @@
 
 import { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
+
 
 const navLinks = [
   { name: 'Home', href: '#home' },
@@ -31,11 +32,11 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav 
+    <nav
       className={cn(
         "fixed top-0 left-0 w-full z-50 transition-all duration-300",
-        isScrolled 
-          ? "bg-corra-dark/95 backdrop-blur-md py-4 shadow-md" 
+        isScrolled
+          ? "bg-corra-dark/95 backdrop-blur-md py-4 shadow-md"
           : "bg-transparent py-6"
       )}
     >
@@ -47,7 +48,7 @@ const Navbar = () => {
         {/* Desktop Navigation */}
         <div className="hidden md:flex space-x-8 items-center">
           {navLinks.map(link => (
-            <a 
+            <a
               key={link.name}
               href={link.href}
               className="text-corra-light hover:text-corra-brand font-medium transition-colors"
@@ -58,7 +59,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu Button */}
-        <button 
+        <button
           className="md:hidden text-corra-light p-2"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle menu"
@@ -68,15 +69,24 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Navigation */}
+      {/* Mobile Navigation */}
       <div 
-        className={cn(
-          "fixed inset-0 bg-corra-dark/95 flex flex-col justify-center items-center transition-all duration-300 md:hidden",
-          isMobileMenuOpen ? "opacity-100 z-40" : "opacity-0 pointer-events-none -z-10"
-        )}
-      >
+  className={cn(
+    "fixed top-0 left-0 w-full h-[100dvh] bg-corra-dark/95 flex flex-col justify-center items-center transition-all duration-300 md:hidden",
+    isMobileMenuOpen ? "opacity-100 z-40" : "opacity-0 pointer-events-none -z-10"
+  )}
+>
+        <button
+          className="absolute top-4 right-4 text-corra-light p-2"
+          onClick={() => setIsMobileMenuOpen(false)}
+          aria-label="Close menu"
+        >
+          <X size={28} />
+        </button>
+
         <div className="flex flex-col items-center space-y-8">
           {navLinks.map(link => (
-            <a 
+            <a
               key={link.name}
               href={link.href}
               className="text-corra-light hover:text-corra-brand text-2xl font-medium transition-colors"
